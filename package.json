@@ -1,0 +1,17 @@
+{
+  "name": "paged",
+  "version": "0.0.0",
+  "description": "A paged/tabbed module for the browser",
+  "main": "paged.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha -R spec"
+  },
+  "repository": "",
+  "author": "Ben Gourley",
+  "license": "BSD",
+  "devDependencies": {
+    "mocha": "~1.8.2",
+    "jsdom": "~0.5.3",
+    "jquery": "~1.8.3"
+  }
+}
