@@ -50,13 +50,16 @@ Paged.prototype.goTo = function (index, nofx) {
   this.current = index
 
   if (!nofx) {
+
     this.sections.not(section)
       .css({ position: 'absolute' })
       [transitionFn]({ opacity: 0 }, this.transitionSpeed)
 
-    setTimeout(function () {
-      this.sections.not(section).css({ display: 'none'})
-    }, this.transitionSpeed)
+    setTimeout($.proxy(function () {
+      this.sections.each($.proxy(function (i, el) {
+        if (i !== this.current) $(el).css({ display: 'none' })
+      }, this))
+    }, this), this.transitionSpeed)
 
     this.container[transitionFn]({ height: height }, 100)
 
@@ -64,9 +67,11 @@ Paged.prototype.goTo = function (index, nofx) {
     section[transitionFn]({ opacity: 1 }, this.transitionSpeed)
 
   } else {
+
     this.sections.not(section).css({ position: 'absolute', display: 'none' })
     section.css({ opacity: 1, display: 'block' })
     this.container.css({ height: height })
+
   }
 
   return this
