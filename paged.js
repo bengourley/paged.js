@@ -29,7 +29,7 @@ Paged.prototype.init = function () {
     , opacity: 0
     , position: 'absolute'
     })
-  this.goTo(0)
+  this.goTo(0, true)
 
   return this
 
@@ -38,32 +38,36 @@ Paged.prototype.init = function () {
 /*
  * Go to tab number `index`
  */
-Paged.prototype.goTo = function (index) {
+Paged.prototype.goTo = function (index, nofx) {
 
   this.emit('change', index)
 
   if (this.current === index) return
 
-  var self = this
-    , section = this.sections.eq(index)
+  var section = this.sections.eq(index)
     , height = section.outerHeight(true)
 
   this.current = index
 
-  this.sections.not(section)
-    .css({ position: 'absolute' })
-    [transitionFn]({ opacity: 0 }, this.transitionSpeed)
+  if (!nofx) {
+    this.sections.not(section)
+      .css({ position: 'absolute' })
+      [transitionFn]({ opacity: 0 }, this.transitionSpeed)
 
-  setTimeout(function () {
-    self.sections.each(function (i) {
-      if (i !== self.current) $(this).css({ display: 'none'})
-    })
-  }, this.transitionSpeed)
+    setTimeout(function () {
+      this.sections.not(section).css({ display: 'none'})
+    }, this.transitionSpeed)
 
-  this.container[transitionFn]({ height: height }, 100)
+    this.container[transitionFn]({ height: height }, 100)
 
-  section.css({ opacity: 0, display: 'block' })
-  section[transitionFn]({ opacity: 1 }, this.transitionSpeed)
+    section.css({ opacity: 0, display: 'block' })
+    section[transitionFn]({ opacity: 1 }, this.transitionSpeed)
+
+  } else {
+    this.sections.not(section).css({ position: 'absolute', display: 'none' })
+    section.css({ opacity: 1, display: 'block' })
+    this.container.css({ height: height })
+  }
 
   return this
 }
