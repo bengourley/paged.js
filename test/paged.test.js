@@ -4,7 +4,7 @@ var Paged = require('..')
   , assert = require('assert')
   , EventEmitter = require('events').EventEmitter
 
-describe('modal', function () {
+describe('paged', function () {
 
   afterEach(function () {
     $('body').html(
@@ -82,7 +82,7 @@ describe('modal', function () {
           done()
         }, 0)
       })
-      paged.goTo(2)
+      paged.goTo(2, true)
     })
 
   })
