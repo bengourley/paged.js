@@ -13,6 +13,7 @@ function Paged(container, sections, nofx) {
   this.sections = sections
   this.current = null
   this.transitionSpeed = nofx ? 0 : 150
+  this.loop = true
 }
 
 Paged.prototype = new EventEmitter()
@@ -40,6 +41,9 @@ Paged.prototype.init = function () {
  */
 Paged.prototype.goTo = function (index, nofx) {
 
+  // Do no work on invalid input
+  if (index < 0 || index >= this.sections.length) return
+
   this.emit('change', index)
 
   if (this.current === index) return
@@ -49,7 +53,7 @@ Paged.prototype.goTo = function (index, nofx) {
 
   this.current = index
 
-  if (!nofx) {
+  if (this.transitionSpeed > 0 && !nofx) {
 
     this.sections.not(section)
       .css({ position: 'absolute' })
@@ -75,6 +79,36 @@ Paged.prototype.goTo = function (index, nofx) {
   }
 
   return this
+}
+
+/*
+ * Convenience method for moving to the next section.
+ * Adds loop functionality if `this.loop` is true.
+ */
+Paged.prototype.next = function () {
+  if (this.current === this.sections.length - 1) {
+    if (this.loop) {
+      return this.goTo(0)
+    } else {
+      return
+    }
+  }
+  return this.goTo(this.current + 1)
+}
+
+/*
+ * Convenience method for moving to the previous section.
+ * Adds loop functionality if `this.loop` is true.
+ */
+Paged.prototype.prev = function () {
+  if (this.current === 0) {
+    if (this.loop) {
+      return this.goTo(this.sections.length - 1)
+    } else {
+      return
+    }
+  }
+  return this.goTo(this.current - 1)
 }
 
 /*
