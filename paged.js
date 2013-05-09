@@ -9,6 +9,7 @@ var EventEmitter = require('events').EventEmitter
  * a certain html structure.
  */
 function Paged(container, sections, nofx) {
+  EventEmitter.call(this)
   this.container = container
   this.sections = sections
   this.current = null
@@ -16,7 +17,7 @@ function Paged(container, sections, nofx) {
   this.loop = true
 }
 
-Paged.prototype = new EventEmitter()
+Paged.prototype = EventEmitter.prototype
 
 /*
  * Set required styles and
