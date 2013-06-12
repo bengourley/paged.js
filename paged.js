@@ -1,6 +1,7 @@
 module.exports = Paged
 
 var EventEmitter = require('events').EventEmitter
+  , inherits = require('inherits')
   , transitionFn = $.fn.transition ? 'transition' : 'animate'
 
 /*
@@ -17,7 +18,7 @@ function Paged(container, sections, nofx) {
   this.loop = true
 }
 
-Paged.prototype = EventEmitter.prototype
+inherits(Paged, EventEmitter)
 
 /*
  * Set required styles and
