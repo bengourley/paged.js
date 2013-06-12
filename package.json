@@ -1,6 +1,6 @@
 {
   "name": "paged",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A paged/tabbed module for the browser",
   "main": "paged.js",
   "scripts": {
